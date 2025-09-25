@@ -26,6 +26,9 @@ REPORT zabapgit LINE-SIZE 100.
 * SOFTWARE.
 ********************************************************************************
 
+
+"MERGER TEST
+
 SELECTION-SCREEN BEGIN OF SCREEN 1001.
 * dummy for triggering screen on Java SAP GUI
 SELECTION-SCREEN END OF SCREEN 1001.
