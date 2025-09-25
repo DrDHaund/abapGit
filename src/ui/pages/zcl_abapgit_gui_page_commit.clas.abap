@@ -159,9 +159,24 @@ CLASS zcl_abapgit_gui_page_commit IMPLEMENTATION.
 
   ENDMETHOD.
 
-
   METHOD get_comment_default.
+    DATA(current_source) = mo_stage->get_merge_source( ).
+    IF current_source IS NOT INITIAL.
 
+      DATA(current_url) = mi_repo_online->get_url( ).
+      DATA(current_branch_name) = zcl_abapgit_git_branch_utils=>get_display_name( mi_repo_online->get_selected_branch( ) ).
+
+      TRY.
+          DATA(branches) = zcl_abapgit_git_transport=>branches( current_url ).
+          DATA(branches_only) = branches->get_branches_only( ).
+          rv_text = |Merge { branches_only[ sha1 = current_source ]-display_name } into { current_branch_name } |.
+          RETURN.
+        CATCH zcx_abapgit_exception.
+
+      ENDTRY.
+
+
+    ENDIF.
     rv_text = mo_settings->get_commitmsg_comment_default( ).
 
     IF rv_text IS INITIAL.
